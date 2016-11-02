@@ -1,8 +1,11 @@
-(ns git-butler.url-builder)
+(ns git-butler.github.url-builder)
+
+(def url "https://api.github.com/")
 
 (defn get-commit-status-url
   [{:keys [repo-owner repo-name commit]}]
-  (str "https://api.github.com/repos/"
+  (str url
+       "repos/"
        repo-owner "/"
        repo-name "/"
        "commits/"
@@ -11,7 +14,11 @@
 
 (defn get-merge-url
   [{:keys [repo-owner repo-name commit] :as params}]
-  (str "https://api.github.com/repos/"
+  (str url
+       "repos/"
        repo-owner "/"
        repo-name "/"
        "merges/"))
+
+(def authorizations-url
+  (str url "authorizations"))

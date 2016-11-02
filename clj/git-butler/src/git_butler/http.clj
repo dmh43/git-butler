@@ -5,7 +5,11 @@
 (defn- request
   [method url params]
   (try+
-   (method url params)
+   (method url (merge-with merge
+                           params
+                           {:throw-entire-message? true
+                            :accept :json
+                            :headers {"User-Agent" "git-butler"}}))
    (catch [:status 403] {:keys [request-time headers body]}
      (println "403" request-time headers))
    (catch [:status 404] {:keys [request-time headers body]}
