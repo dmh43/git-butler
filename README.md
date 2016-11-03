@@ -1,6 +1,6 @@
 # git-butler
 
-FIXME
+Streamlines the process of merging feature branches into the main development branch when using CI
 
 ## Prerequisites
 
