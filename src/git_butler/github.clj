@@ -1,7 +1,20 @@
 (ns git-butler.github
   (:require [git-butler.github.url-builder :as u]
             [git-butler.http :as http]
-            [git-butler.json-to-clj :as j2c]))
+            [git-butler.json-to-clj :as j2c]
+            [buddy.sign.jwt :as jwt]
+            [buddy.core.keys :as auth-keys]
+            [clj-jwt.core  :refer :all]
+            [clj-jwt.key   :refer [private-key]]
+            [clj-time.core :as t]))
+
+(def privkey (private-key "git-butler.2016-11-02.private-key.pem"))
+
+(def payload {:exp (t/plus (t/now) (t/minutes 40))
+              :iat (t/now)
+              :iss 556})
+
+(def my-jwt (-> payload jwt (sign :RS256 privkey) to-str))
 
 
 (defn get-commit-status
@@ -16,15 +29,15 @@
 (defn merge-commit
   [{:keys [repo-owner
            repo-name
-           commit
            base
            head
            commit-message] :as params}]
   (let [form-params (-> params
-                        (select-keys [:commit-message :base :head])
+                        (select-keys [:base :head :commit-message])
                         j2c/coerce-keys)]
     (http/post (u/get-merge-url params)
-               {:form-params form-params})))
+               {:form-params form-params
+                :headers {"Authorization" (str "token " "203280b13d8611d83a57b7f92eec2b240fd3ab77")}})))
 
 (defn- create-authorization*
   [{:keys [scopes

@@ -10,7 +10,8 @@
                  [cheshire "5.6.3"]
                  [slingshot "0.12.2"]
                  [clj-oauth "1.5.5"]
-                 [tentacles "0.5.1"]]
+                 [buddy "1.1.0"]
+                 [clj-jwt "0.1.1"]]
   :plugins [[lein-ring "0.9.7"]]
   :ring {:handler git-butler.handler/app}
   :profiles
