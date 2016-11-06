@@ -11,11 +11,3 @@
        "commits/"
        commit "/"
        "status"))
-
-(defn get-merge-url
-  [{:keys [repo-owner repo-name] :as params}]
-  (str url
-       "repos/"
-       repo-owner "/"
-       repo-name "/"
-       "merges/"))

@@ -19,9 +19,6 @@
      (throw+))))
 
 (defn get
-  [url params]
-  (request client/get url params))
-
-(defn post
-  [url params]
-  (request client/post url params))
+  ([url] (get url {}))
+  ([url params]
+   (request client/get url params)))
