@@ -12,13 +12,14 @@
 (defn merge-handler
   [data]
   (-> data
-      (select-keys [:repo-owner :repo-name :commit :base :head :commit-message])
+      (select-keys [:repo-owner :repo-name :base :head :commit-message])
       gh/merge-commit))
 
 (defroutes app-routes
+  (GET "/" request "git-butler")
   (GET "/:repo-owner/:repo-name/:commit/status" {params :params}
        (get-status-handler params))
-  (POST "/:repo-owner/:repo-name/merge/" {body :body
+  (POST "/:repo-owner/:repo-name/merge" {body :body
                                           params :params}
         (let [data (merge body params)]
           (merge-handler data)))
