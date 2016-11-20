@@ -9,7 +9,7 @@
 (defn merge-handler
   [data]
   (-> data
-      (select-keys [:repo-owner :repo-name :base :head :commit-message])
+      (select-keys [:repo-id :feature-branch :base-branch :commit-message])
       gb/process-feature-branch))
 
 (defroutes app-routes

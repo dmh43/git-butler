@@ -1,8 +1,7 @@
 (ns git-butler.core
   (:require [git-butler.github.core :as gh]
             [git-butler.git.core :as g]
-            [git-butler.queue :as q]
-            [git-butler.github.url-builder :as u]))
+            [git-butler.queue :as q]))
 
 (defn process-feature-branch
   [{:keys [commit-info commit-message shipping-queue token]}]
