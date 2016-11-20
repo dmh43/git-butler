@@ -7,10 +7,10 @@
   [{:keys [repo-owner repo-name base head commit-message] :as params}])
 
 (defn clone-repo
-  [repo-info]
+  [repo-info token]
   (let [tmp-dir-info (fs/temp-dir "butler-repo-tmp")
         dest-path (str tmp-dir-info)
-        command (gc/git-clone repo-info dest-path)]
+        command (gc/git-clone repo-info token dest-path)]
     (apply sh command)))
 
 (defn checkout-branch

@@ -1,8 +1,8 @@
 (ns git-butler.git.command-builders)
 
 (defn git-clone
-  [{:keys [path token]} dest-path]
-  (let [full-url (str "https://" token "@github.com" path)]
+  [repo-info token get-repo-url dest-path]
+  (let [full-url (get-repo-url (assoc repo-info :token token))]
     ["git" "clone" full-url dest-path]))
 
 (defn git-checkout
