@@ -15,7 +15,7 @@
       (fn []
         (let [response (app (mock/request :get "/me/my-code/master/status"))]
           (is (= (:status response) 200))
-          (is (= (:body response) "success"))))))
+          (is (= (:body response) "Ready to Merge!"))))))
 
   (testing "merge route"
     (with-redefs-fn {#'gh/merge-commit (constantly "merge successful")}

@@ -1,5 +1,6 @@
 (ns git-butler.handler
   (:require [git-butler.github.core :as gh]
+            [git-butler.middleware :as m]
             [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
@@ -7,7 +8,9 @@
 
 (defn get-status-handler
   [params]
-  (gh/get-commit-status params))
+  (if (gh/tests-pass? params)
+    "Ready to Merge!"
+    "Pending fixes"))
 
 (defn merge-handler
   [data]
@@ -26,6 +29,7 @@
   (route/not-found "Not Found"))
 
 (def app (-> app-routes
+             m/chomp-trailing-slash
              (wrap-json-body {:keywords? true})
              (wrap-json-response {:keywords? true})
              (wrap-defaults (assoc site-defaults :security false))))

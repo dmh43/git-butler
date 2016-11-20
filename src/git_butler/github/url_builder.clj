@@ -11,3 +11,7 @@
        "commits/"
        commit "/"
        "status"))
+
+(defn get-repo-url
+  [{:keys [token repo-owner repo-name]}]
+  (str "https://" token "@github.com/" repo-owner "/" repo-name ".git"))

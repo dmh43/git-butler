@@ -4,8 +4,9 @@
             [clojure.test :refer :all]))
 
 (deftest github-comm
-  (testing "get-commit-status"
+  (testing "tests-pass?"
     (with-redefs-fn {#'http/get (constantly {:body {:state "success"}})}
-      #(gh/get-commit-status {:repo-owner "me"
-                              :repo-name "my-code"
-                              :commit "master"}))))
+      (fn []
+        (is (gh/tests-pass? {:repo-owner "me"
+                             :repo-name "my-code"
+                             :commit "master"}))))))
