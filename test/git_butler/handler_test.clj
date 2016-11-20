@@ -2,7 +2,7 @@
   (:require [clojure.test :refer :all]
             [ring.mock.request :as mock]
             [git-butler.handler :refer :all]
-            [git-butler.github.core :as gh]))
+            [git-butler.core :as gb]))
 
 (deftest test-app
   (testing "main route"
@@ -10,15 +10,8 @@
       (is (= (:status response) 200))
       (is (= (:body response) "git-butler"))))
 
-  (testing "status route"
-    (with-redefs-fn {#'gh/get-commit-status (constantly "success")}
-      (fn []
-        (let [response (app (mock/request :get "/me/my-code/master/status"))]
-          (is (= (:status response) 200))
-          (is (= (:body response) "Ready to Merge!"))))))
-
   (testing "merge route"
-    (with-redefs-fn {#'gh/merge-commit (constantly "merge successful")}
+    (with-redefs-fn {#'gb/process-feature-branch (constantly "merge successful")}
       (fn []
         (let [response (-> (mock/request
                             :post

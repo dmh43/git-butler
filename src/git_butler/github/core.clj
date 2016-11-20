@@ -13,7 +13,3 @@
   [commit-info]
   (= (get-commit-status commit-info)
      "success"))
-
-(defn merge-commit
-  [{:keys [repo-owner repo-name base head commit-message] :as params}]
-  )

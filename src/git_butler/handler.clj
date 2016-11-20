@@ -1,29 +1,21 @@
 (ns git-butler.handler
-  (:require [git-butler.github.core :as gh]
+  (:require [git-butler.core :as gb]
             [git-butler.middleware :as m]
             [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]))
 
-(defn get-status-handler
-  [params]
-  (if (gh/tests-pass? params)
-    "Ready to Merge!"
-    "Pending fixes"))
-
 (defn merge-handler
   [data]
   (-> data
       (select-keys [:repo-owner :repo-name :base :head :commit-message])
-      gh/merge-commit))
+      gb/process-feature-branch))
 
 (defroutes app-routes
   (GET "/" request "git-butler")
-  (GET "/:repo-owner/:repo-name/:commit/status" {params :params}
-       (get-status-handler params))
   (POST "/:repo-owner/:repo-name/merge" {body :body
-                                          params :params}
+                                         params :params}
         (let [data (merge body params)]
           (merge-handler data)))
   (route/not-found "Not Found"))
