@@ -1,26 +1,32 @@
 (ns git-butler.git.core
-  (:require [me.raynes.fs :as fs]
-            [clojure.java.shell :refer [sh]]
-            [git-butler.git.command-builders :as gc]))
+  (:require [clojure.java.shell :refer [sh]]
+            [git-butler.github.url-builder :as gu]
+            [git-butler.git.command-builders :as c]))
 
 (defn merge-commit
   [{:keys [repo-owner repo-name base head commit-message] :as params}])
 
 (defn clone-repo
-  [repo-info token]
-  (let [tmp-dir-info (fs/temp-dir "butler-repo-tmp")
-        dest-path (str tmp-dir-info)
-        command (gc/git-clone repo-info token dest-path)]
+  [path repo-info token]
+  (let [command (c/git-clone path repo-info token gu/get-repo-url)]
     (apply sh command)))
 
 (defn checkout-branch
-  [branch-name]
-  (apply sh (gc/git-checkout branch-name)))
+  [path branch-name]
+  (apply sh (c/git-checkout path branch-name)))
+
+(defn fetch
+  [path]
+  (apply sh (c/git-fetch path)))
 
 (defn merge-branch
-  [branch-name]
-  (apply sh (gc/git-merge branch-name)))
+  [path branch-name]
+  (apply sh (c/git-merge path branch-name)))
 
 (defn merge-squash
-  [branch-name commit-message]
-  (apply sh (gc/git-merge-squash branch-name commit-message)))
+  [path branch-name commit-message]
+  (apply sh (c/git-merge-squash path branch-name commit-message)))
+
+(defn push
+  [path]
+  (apply sh (c/git-push path)))

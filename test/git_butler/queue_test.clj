@@ -13,16 +13,16 @@
     (is (= (gb/parent-branch ["bug-fix" "feature" "add-docs"] "feature" "master")
            "bug-fix")))
 
-  (testing "push-branch"
-    (is (= (gb/push-branch [] "feature")
+  (testing "push-merge"
+    (is (= (gb/push-merge [] "feature")
            ["feature"]))
-    (is (= (gb/push-branch ["bug-fix" "feature"] "feature")
+    (is (= (gb/push-merge ["bug-fix" "feature"] "feature")
            ["bug-fix" "feature"])))
 
-  (testing "drop-branch"
-    (is (= (gb/drop-branch [] "feature")
+  (testing "drop-merge"
+    (is (= (gb/drop-merge [] "feature")
            []))
-    (is (= (gb/drop-branch ["feature"] "feature")
+    (is (= (gb/drop-merge ["feature"] "feature")
            []))
-    (is (= (gb/drop-branch ["bug-fix" "feature"] "feature")
+    (is (= (gb/drop-merge ["bug-fix" "feature"] "feature")
            ["bug-fix"]))))

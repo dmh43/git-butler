@@ -1,10 +1,10 @@
 (ns git-butler.queue)
 
-(defn drop-branch
+(defn drop-merge
   [shipping-queue branch-name]
   (remove (partial = branch-name) shipping-queue))
 
-(defn push-branch
+(defn push-merge
   [shipping-queue branch-name]
   (if (not-any? (partial = branch-name) shipping-queue)
     (conj shipping-queue branch-name)
