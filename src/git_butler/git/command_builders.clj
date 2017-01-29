@@ -9,7 +9,7 @@
   [path repo-info token get-repo-url]
   (wrap-with-cd
    path
-   (let [full-url (get-repo-url (assoc repo-info :token token))]
+   (let [full-url (get-repo-url repo-info token)]
      ["git" "clone" full-url path])))
 
 (defn git-checkout

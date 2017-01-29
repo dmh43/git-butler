@@ -2,11 +2,11 @@
   (:require [me.raynes.fs :as fs]
             [git-butler.git.core :as g]))
 
-(let [tmp-dir-info (fs/temp-dir "butler-repo-tmp")
-      path (str tmp-dir-info)] (println path)
-     (g/clone-repo path
-                   {:repo-owner "dmh43" :repo-name "special-train"}
-                   "312d6558666412d229d6eebc4fa15a21f8863b32")
-     (g/checkout-branch path "master")
-     (g/merge-branch path "origin/for-merge")
-     (g/push path))
+(defn merge-feature-branch
+  [token parent-branch remote-name {:keys [repo-owner repo-name] :as repo-info}]
+  (let [tmp-dir-info (fs/temp-dir (str repo-owner repo-name))
+        path (str tmp-dir-info)]
+    (g/clone-repo path repo-info token)
+    (g/checkout-branch path parent-branch)
+    (g/merge-branch path (str repo-owner "/" repo-name))
+    (g/push path)))
