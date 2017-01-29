@@ -3,30 +3,63 @@
             [git-butler.github.url-builder :as gu]
             [git-butler.git.command-builders :as c]))
 
-(defn merge-commit
-  [{:keys [repo-owner repo-name base head commit-message] :as params}])
+(defmacro defcommand
+  [name args body]
+  `(defn ~name ~args (apply sh ~body)))
 
-(defn clone-repo
+(defcommand clone-repo
   [path repo-info token]
-  (let [command (c/git-clone path repo-info token gu/get-repo-url)]
-    (apply sh command)))
+  (c/git-clone path repo-info token gu/get-repo-url))
 
-(defn checkout-branch
+(defcommand checkout-branch
   [path branch-name]
-  (apply sh (c/git-checkout path branch-name)))
+  (c/git-checkout path branch-name))
 
-(defn fetch
+(defcommand fetch
   [path]
-  (apply sh (c/git-fetch path)))
+  (c/git-fetch path))
 
-(defn merge-branch
+(defcommand merge-branch
   [path branch-name]
-  (apply sh (c/git-merge path branch-name)))
+  (c/git-merge path branch-name))
 
-(defn merge-squash
+(defcommand merge-squash
   [path branch-name commit-message]
-  (apply sh (c/git-merge-squash path branch-name commit-message)))
+  (c/git-merge-squash path branch-name commit-message))
 
-(defn push
-  [path]
-  (apply sh (c/git-push path)))
+(defcommand push
+  [path branch-name]
+  (c/git-push path "--set-upstream" "origin" branch-name))
+
+(defcommand branch
+  [path branch-name]
+  (c/git-branch path branch-name))
+
+(defcommand commit
+  [path commit-message]
+  (c/git-commit path commit-message))
+
+;; (defn clone-repo
+;;   [path repo-info token]
+;;   (let [command (c/git-clone path repo-info token gu/get-repo-url)]
+;;     (apply sh command)))
+
+;; (defn checkout-branch
+;;   [path branch-name]
+;;   (apply sh (c/git-checkout path branch-name)))
+
+;; (defn fetch
+;;   [path]
+;;   (apply sh (c/git-fetch path)))
+
+;; (defn merge-branch
+;;   [path branch-name]
+;;   (apply sh (c/git-merge path branch-name)))
+
+;; (defn merge-squash
+;;   [path branch-name commit-message]
+;;   (apply sh (c/git-merge-squash path branch-name commit-message)))
+
+;; (defn push
+;;   [path]
+;;   (apply sh (c/git-push path)))

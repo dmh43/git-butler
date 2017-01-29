@@ -16,6 +16,10 @@
   [path branch-name]
   (wrap-with-cd path ["git" "checkout" branch-name]))
 
+(defn git-branch
+  [path branch-name]
+  (wrap-with-cd path ["git" "branch" branch-name]))
+
 (defn git-fetch
   [path]
   (wrap-with-cd path ["git" "fetch"]))
@@ -29,5 +33,9 @@
   (wrap-with-cd path ["git" "merge" "--squash" branch-name "-m" commit-message]))
 
 (defn git-push
-  [path]
-  (wrap-with-cd path ["git" "push"]))
+  [path & args]
+  (wrap-with-cd path (apply conj ["git" "push"] args)))
+
+(defn git-commit
+  [path commit-message]
+  (wrap-with-cd path ["git" "commit" "--allow-empty" "-m" commit-message]))
