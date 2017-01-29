@@ -35,7 +35,7 @@
 
 (defn process-feature-branch
   [{:keys [commit-info commit-message shipping-queue token]}]
-  (let [{:keys [base head commit-message]} commit-info
+  #_(let [{:keys [base head commit-message]} commit-info
         repo-url (u/get-repo-url (assoc commit-info :token token))]
     (when (gh/tests-pass? (assoc commit-info :commit head))
       (g/clone-repo repo-url)
