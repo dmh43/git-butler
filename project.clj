@@ -11,9 +11,12 @@
                  [me.raynes/fs "1.4.6"]
                  [ring/ring-defaults "0.2.1"]
                  [ring/ring-json "0.4.0"]
-                 [slingshot "0.12.2"]]
+                 [slingshot "0.12.2"]
+                 [yogthos/config "0.8"]]
   :plugins [[lein-ring "0.9.7"]]
   :ring {:handler git-butler.handler/app}
   :profiles
-  {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
-                        [ring/ring-mock "0.3.0"]]}})
+  {:prod {:resource-paths ["config/prod"]}
+   :dev {:dependencies [[javax.servlet/servlet-api "2.5"]
+                        [ring/ring-mock "0.3.0"]]
+         :resource-paths ["config/dev"]}})

@@ -6,11 +6,12 @@
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]))
 
+(def repos (gb/init))
+
 (defn merge-handler
   [data]
-  (-> data
-      (select-keys [:repo-owner :repo-name :base :head :commit-message])
-      gb/process-feature-branch))
+  (let [merge-info (select-keys data [:repo-id :feature-branch :base-branch :commit-message])]
+    (gb/add-to-queue repos merge-info)))
 
 (defroutes app-routes
   (GET "/" request "git-butler")
