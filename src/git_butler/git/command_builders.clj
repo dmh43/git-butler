@@ -1,16 +1,5 @@
-(ns git-butler.git.command-builders)
-
-(def ^:dynamic *path*)
-
-(defn wrap-with-cd
-  [command-vector]
-  (let [cd-vector [:dir *path*]]
-    (apply conj command-vector cd-vector)))
-
-(defn at-path
-  [path command-vector]
-  (binding [*path* path]
-    (wrap-with-cd command-vector)))
+(ns git-butler.git.command-builders
+  (:require [git-butler.utils.core :refer [wrap-with-cd *path*]]))
 
 (defn git-clone
   [repo-info token get-repo-url]

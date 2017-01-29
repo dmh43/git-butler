@@ -24,22 +24,22 @@
 
         (fn []
           (testing "no request params"
-            (is (= (http/get request-url {})
+            (is (= (http/GET request-url {})
                    get-response))
             (is (some (partial = [request-url request-params])
                       @get-calls)))
 
           (testing "no request params arg"
-            (is (= (http/get request-url)
+            (is (= (http/GET request-url)
                    get-response))
             (is (some (partial = [request-url request-params])
                       @get-calls)))
 
-          (testing "passes params to http/get"
+          (testing "passes params to http/GET"
             (let [additional-args {:headers
                                    {"Authorization" "token 123"}
                                    :repo_name "my-code"}]
-              (is (= (http/get request-url additional-args)
+              (is (= (http/GET request-url additional-args)
                      get-response))
               (is (some (partial = [request-url
                                     {:headers {"Authorization" "token 123"
@@ -60,8 +60,8 @@
 
           (fn []
             (is-not-thrown? Exception
-                            (http/get request-url {}))
+                            (http/GET request-url {}))
             (is-not-thrown? Exception
-                            (http/get request-url {}))
+                            (http/GET request-url {}))
             (is (thrown? Exception
-                         (http/get request-url {})))))))))
+                         (http/GET request-url {})))))))))

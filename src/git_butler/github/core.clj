@@ -5,7 +5,7 @@
 (defn get-commit-status
   [commit-info]
   (get-in
-   (http/get (u/get-commit-status-url commit-info)
+   (http/GET (u/get-commit-status-url commit-info)
              {:as :json})
    [:body :state]))
 

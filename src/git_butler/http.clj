@@ -18,7 +18,7 @@
      (println (:throwable &throw-context) "unexpected error")
      (throw+))))
 
-(defn get
-  ([url] (get url {}))
+(defn GET
+  ([url] (GET url {}))
   ([url params]
    (request client/get url params)))

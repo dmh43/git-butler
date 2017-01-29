@@ -1,11 +1,7 @@
 (ns git-butler.git.core
-  (:require [clojure.java.shell :refer [sh]]
-            [git-butler.github.url-builder :as gu]
-            [git-butler.git.command-builders :as c]))
-
-(defmacro defcommand
-  [name args body]
-  `(defn ~name ~args (apply sh ~body)))
+  (:require [git-butler.github.url-builder :as gu]
+            [git-butler.git.command-builders :as c]
+            [git-butler.utils.core :refer [defcommand]]))
 
 (defcommand clone-repo
   [repo-info token]

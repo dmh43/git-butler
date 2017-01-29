@@ -5,7 +5,7 @@
 
 (deftest github-comm
   (testing "tests-pass?"
-    (with-redefs-fn {#'http/get (constantly {:body {:state "success"}})}
+    (with-redefs-fn {#'http/GET (constantly {:body {:state "success"}})}
       (fn []
         (is (gh/tests-pass? {:repo-owner "me"
                              :repo-name "my-code"
