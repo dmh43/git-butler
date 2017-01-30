@@ -2,14 +2,20 @@
 Streamlines the process of merging feature branches into the main development branch when using CI
 * Prerequisites
 You will need [[https://github.com/technomancy/leiningen][leiningen]] 2.0.0 or above installed.
-* Running
-To start a web server for the application, run:
-~lein ring server~
 * Testing
-To run feature tests, run:
-~lein cucumber~
-
-To run unit tests, run:
-~lein test~
-* License
-Copyright © 2016 FIXME
+Create ~config/dev/config.edn~ in the project root
+with fields: ~{:test-repo-info {:repo-name
+"REPO_NAME", :repo-owner "REPO_OWNER"},
+:github-oauth-token "OAUTH_TOKEN"}~ Run ~lein
+test~ to compile the project and run unit and
+feature test. The test in
+~git-butler.cli.core-test~ will push to the repo
+defined in your ~config.edn~
+* Progress [33%]
+** TODO Expose route to merge a feature branch
+** TODO Manage authentication of multiple users for multiple repos
+** DONE API for performing basic git commands
+CLOSED: [2017-01-30 Mon 10:42]
+~git-butler.cli.core~ provides management of
+remote git repositiories (currently only Github is
+supported)
