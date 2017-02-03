@@ -30,13 +30,7 @@
             (is (some (partial = [request-url request-params])
                       @get-calls)))
 
-          (testing "no request params arg"
-            (is (= (http/GET request-url)
-                   get-response))
-            (is (some (partial = [request-url request-params])
-                      @get-calls)))
-
-          (testing "passes params to http/GET"
+          (testing "passes params to the request method"
             (let [params {:body {:repo_name "my-code"}}
                   token "123"]
               (is (= (http/GET request-url params token)
@@ -44,9 +38,10 @@
               (is (some (partial = [request-url
                                     {:headers {"Authorization" "token 123"
                                                "User-Agent" "git-butler"}
-                                     :body {:repo_name "my-code"}
+                                     :body "{\"repo_name\":\"my-code\"}"
                                      :throw-entire-message? true,
-                                     :accept :json}])
+                                     :accept :json
+                                     :content-type "application/json"}])
                         @get-calls)))))))
 
     (testing "invalid response"
