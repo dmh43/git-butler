@@ -25,16 +25,26 @@
             (if (not (:token session))
               [:a {:href (a/get-authorize-url)} "Get oauth token"]
               [:div
-               [:p (str "Your token is: " (:token session))]
+               [:div (str "Your token is: " (:token session))]
                [:div
                 [:a {:href "/get-repos"} "Get repos"]
                 [:a {:href "/forget-token"} "Forget token"]]]))
       (handler-wrapper session)))
 
+(defn fetch-repos
+  [token]
+  (req/GET u/list-repos-url {} token))
+
+(defn list-repos
+  [repo-infos]
+  (html (for [repo-info repo-infos]
+          [:div (get repo-info "name")])))
+
 (defn get-repos
   [body params session]
-  (-> (req/GET u/list-repos-url {} (:token session))
+  (-> (fetch-repos (:token session))
       :body
+      list-repos
       (handler-wrapper session)))
 
 (defn forget-token

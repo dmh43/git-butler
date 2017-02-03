@@ -12,7 +12,7 @@
 (defn get-oauth-token
   [session-code]
   (let [response (req/POST "https://github.com/login/oauth/access_token"
-                           {:client_id client-id
-                            :client_secret client-secret
-                            :code session-code})]
+                           {:body {:client_id client-id
+                                   :client_secret client-secret
+                                   :code session-code}})]
     (get (:body response) "access_token")))

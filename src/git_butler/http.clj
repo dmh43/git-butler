@@ -12,7 +12,7 @@
          with-json-body (update params :body #(when % (ch/generate-string %)))]
      (try+
       (let [resp (method url (merge-with merge with-json-body default-params))
-            content-type (get "Content-Type" (:headers resp))]
+            content-type (get "Content-Type" (ch/parse-string (:headers resp)))] ;; HEADER MAPP
         (if (= content-type "application/json")
           (update resp :body ch/parse-string)
           resp))
