@@ -1,5 +1,5 @@
-(defproject git-butler "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
+(defproject git-butler "0.1.0-ALPHA"
+  :description "Your personal CI and SCM butler"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.8.0"]
@@ -12,9 +12,10 @@
                  [ring/ring-defaults "0.2.1"]
                  [ring/ring-json "0.4.0"]
                  [slingshot "0.12.2"]
-                 [yogthos/config "0.8"]]
+                 [yogthos/config "0.8"]
+                 [hiccup "1.0.5"]]
   :plugins [[lein-ring "0.9.7"]]
-  :ring {:handler git-butler.handler/app}
+  :ring {:handler git-butler.app.core/app}
   :profiles
   {:prod {:resource-paths ["config/prod"]}
    :dev {:dependencies [[javax.servlet/servlet-api "2.5"]

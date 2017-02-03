@@ -6,25 +6,26 @@
             [helpers :refer :all]
             [git-butler.side-effect-helpers :refer :all]))
 
-(def request-params {:throw-entire-message? true
+(def request-params {:body nil
+                     :throw-entire-message? true
                      :accept :json
-                     :headers {"User-Agent" "git-butler"}})
+                     :headers {"User-Agent" "git-butler"}
+                     :content-type "application/json"})
 
 (deftest http-get
-  (let [get-response "GET response"
+  (let [get-response {:body "{\"text\": \"GET response\"}"}
         request-url "google.com"
         get-calls (atom [])]
 
     (testing "valid response"
       (with-redefs-fn {#'client/get
                        (fn [& args]
-                         (swap! get-calls
-                                #(conj % args))
+                         (swap! get-calls #(conj % args))
                          get-response)}
 
         (fn []
           (testing "no request params"
-            (is (= (http/GET request-url {})
+            (is (= (http/GET request-url)
                    get-response))
             (is (some (partial = [request-url request-params])
                       @get-calls)))
@@ -36,15 +37,14 @@
                       @get-calls)))
 
           (testing "passes params to http/GET"
-            (let [additional-args {:headers
-                                   {"Authorization" "token 123"}
-                                   :repo_name "my-code"}]
-              (is (= (http/GET request-url additional-args)
+            (let [params {:body {:repo_name "my-code"}}
+                  token "123"]
+              (is (= (http/GET request-url params token)
                      get-response))
               (is (some (partial = [request-url
                                     {:headers {"Authorization" "token 123"
                                                "User-Agent" "git-butler"}
-                                     :repo_name "my-code"
+                                     :body {:repo_name "my-code"}
                                      :throw-entire-message? true,
                                      :accept :json}])
                         @get-calls)))))))

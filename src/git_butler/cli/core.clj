@@ -1,7 +1,6 @@
 (ns git-butler.cli.core
   (:require [me.raynes.fs :as fs]
             [git-butler.git.core :as g]
-            [git-butler.git.command-builders :as c]
             [git-butler.utils.core :refer [*path*]]))
 
 (defn merge-feature-branch
